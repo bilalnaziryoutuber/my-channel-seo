@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     permissions:
-      contents: write # Crucial for saving the DB
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,10 +38,12 @@ jobs:
 
       - name: Deploy to Public Hub (Using Workflow Token)
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          PAT: ${{ secrets.PAT }}
         run: |
           git clone https://x-access-token:${PAT}@github.com/bilalnaziryoutuber/my-seo-hub.git target || exit 0
           cp index.html target/
           cd target
+          git config user.name "SEO-Cycle-Bot"
+          git config user.email "bot@seo.com"
           git add .
           git diff-index --quiet HEAD || (git commit -m "SEO Hub Update: $(date)" && git push origin main) || echo "No changes or push skipped"
