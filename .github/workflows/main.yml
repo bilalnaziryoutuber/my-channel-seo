@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
-          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/Hassan-paracha/my-seo-hub.git target || exit 0
+          git clone https://x-access-token:${PAT}@github.com/Hassan-paracha/my-seo-hub.git target || exit 0
           cp index.html target/
           cd target
           git add .
