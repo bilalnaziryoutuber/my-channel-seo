@@ -8,7 +8,7 @@ from datetime import datetime
 # --- CONFIGURATION ---
 CHANNEL_HANDLE = "@BilalNazir-76" # Ensure this is your actual @handle
 DB_FILE = "video_db.json"
-DAILY_INDEX_LIMIT = 5  # Updated from 380 to 180
+DAILY_INDEX_LIMIT = 100  # Updated from 380 to 180
 BATCH_SIZE = 5          
 COOLDOWN = 30           
 
