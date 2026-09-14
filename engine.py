@@ -26,7 +26,7 @@ def save_db(db):
 
 def get_channel_videos():
     """POWER SCRAPE: Uses the Uploads Playlist to find 100% of content."""
-    base_url = f"https://www.youtube.com/{CHANNEL_HANDLE}/videos"
+    base_url = f"https://www.youtube.com/{CHANNEL_HANDLE}/shorts"
     ydl_opts = {'quiet': True, 'extract_flat': True, 'playlist_items': '1:500'}
     
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
