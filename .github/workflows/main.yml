@@ -1,4 +1,5 @@
 name: Global SEO Rolling Cycle
+
 on:
   schedule:
     - cron: '0 19 * * *'
@@ -7,9 +8,10 @@ on:
 jobs:
   seo-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 55        # Increased: 100 videos = ~20 batches x 30s cooldown = ~10min + API time
     permissions:
       contents: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
