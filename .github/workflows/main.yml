@@ -2,50 +2,92 @@ name: Global SEO Rolling Cycle
 
 on:
   schedule:
-    - cron: '0 19 * * *'
+    - cron: '0 19 * * *'   # Midnight PKT (UTC+5)
   workflow_dispatch:
+    inputs:
+      sync_slice_size:
+        description: Maximum video details to refresh
+        required: false
+        type: string
+        default: '50'
+      refresh_per_day:
+        description: Maximum SEO refreshes per run
+        required: false
+        type: string
+        default: '35'
+      dry_run:
+        description: Skip YouTube, autocomplete, Gemini, and database writes
+        required: false
+        type: string
+        default: '0'
+
+concurrency:
+  group: seo-cycle
+  cancel-in-progress: false
 
 jobs:
-  seo-cycle:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 55        # Increased: 100 videos = ~20 batches x 30s cooldown = ~10min + API time
+    timeout-minutes: 50
     permissions:
       contents: write
-
+      pages: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        id: checkout
+        uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
 
-      - name: Dependencies
-        run: |
-          pip uninstall -y google google-generativeai
-          pip install -U google-genai yt-dlp
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
 
-      - name: Run Rolling Engine
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Run rolling engine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SYNC_SLICE_SIZE: ${{ inputs.sync_slice_size || '50' }}
+          REFRESH_PER_DAY: ${{ inputs.refresh_per_day || '35' }}
+          DRY_RUN: ${{ inputs.dry_run || '0' }}
+          SITE_BASE_URL: https://hassan-paracha.github.io/my-channel-seo/
         run: python engine.py
 
-      - name: Commit & Push Changes
+      - name: Commit and push database state
+        if: always() && steps.checkout.outcome == 'success'
         run: |
-          git config --global user.name "SEO-Cycle-Bot"
-          git config --global user.email "bot@seo.com"
-          git add video_db.json index.html
-          git diff-index --quiet HEAD || (git commit -m "Daily Refresh: $(date)" && git push)
-
-      - name: Deploy to Public Hub (Using Workflow Token)
-        env:
-          PAT: ${{ secrets.PAT }}
-        run: |
-          git clone https://x-access-token:${PAT}@github.com/bilalnaziryoutuber/my-seo-hub.git target || exit 0
-          cp index.html target/
-          cd target
           git config user.name "SEO-Cycle-Bot"
           git config user.email "bot@seo.com"
-          git add .
-          git diff-index --quiet HEAD || (git commit -m "SEO Hub Update: $(date)" && git push origin main) || echo "No changes or push skipped"
+          git add video_db.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Daily video DB refresh: $(date -u +%F)"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
