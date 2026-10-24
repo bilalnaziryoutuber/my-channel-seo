@@ -15,10 +15,10 @@ from xml.sax.saxutils import escape as xml_escape
 import yt_dlp
 from google import genai
 
-CHANNEL_HANDLE = "@hassanparachaoffical"
+CHANNEL_HANDLE = "@BilalNazir-76"
 DB_FILE = "video_db.json"
 SITE_DIR = Path("site")
-DEFAULT_SITE_BASE_URL = "https://hassan-paracha.github.io/my-channel-seo/"
+DEFAULT_SITE_BASE_URL = "https://bilalnaziryoutuber.github.io/my-channel-seo/"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
 BATCH_SIZE = 40
 PAGE_SIZE = 24
@@ -380,8 +380,8 @@ def _video_card(video_id, video):
 def build_html(videos_to_display, *, page_number=1, total_pages=1, page_path="", intro=None, page_title=None):
     base_url = os.getenv("SITE_BASE_URL", DEFAULT_SITE_BASE_URL).rstrip("/") + "/"
     canonical_url = base_url + page_path.lstrip("/")
-    heading = page_title or "Hassan Paracha Videos"
-    meta_description = intro or "Watch Hassan Paracha's YouTube videos, shorts, family moments, and motorcycle stories."
+    heading = page_title or "Bilal Nazir Videos"
+    meta_description = intro or "Watch Bilal Nazir's YouTube videos, shorts, family moments, and motorcycle stories."
     cards_html = "".join(_video_card(video_id, video) for video_id, video in videos_to_display)
     if not cards_html:
         cards_html = '<p class="empty">No videos yet — check back soon.</p>'
@@ -398,7 +398,7 @@ def build_html(videos_to_display, *, page_number=1, total_pages=1, page_path="",
             if page_number < total_pages else ""
         )
         pagination = f'<nav class="pagination" aria-label="Video pages">{previous_page}<span>Page {page_number} of {total_pages}</span>{next_page}</nav>'
-    safe_title = html.escape(f"{heading} | Hassan Paracha", quote=True)
+    safe_title = html.escape(f"{heading} | Bilal Nazir", quote=True)
     safe_description = html.escape(meta_description, quote=True)
     safe_canonical = html.escape(canonical_url, quote=True)
     first_thumbnail = ""
@@ -459,7 +459,7 @@ def build_html(videos_to_display, *, page_number=1, total_pages=1, page_path="",
 
 TOPIC_CLUSTERS = (
     ("bike-start", "Motorcycle & Bike Stories", "Motorcycle and bike stories, repairs, and moments when a bike will not start.", re.compile(r"\b(bike|motorcycle|start|chabi|key)\b", re.I)),
-    ("family-funny", "Family & Funny Moments", "Funny family, kids, and everyday moments from Hassan's videos.", re.compile(r"\b(family|fun|funny|bach|bache|kids|park|enjoy)\b", re.I)),
+    ("family-funny", "Family & Funny Moments", "Funny family, kids, and everyday moments from Bilal's videos.", re.compile(r"\b(family|fun|funny|bach|bache|kids|park|enjoy)\b", re.I)),
     ("celebrations", "Celebrations", "Celebrations, special occasions, and happy moments.", re.compile(r"\b(birthday|eid|wedding|celebration|anniversary|party)\b", re.I)),
 )
 
@@ -531,7 +531,7 @@ def migrate_database(db):
 
 def _get_videos_with_ytdlp():
     """Return the complete uploads listing from yt-dlp's flat extractor."""
-    channel_url = f"https://www.youtube.com/{CHANNEL_HANDLE}/videos"
+    channel_url = f"https://www.youtube.com/{CHANNEL_HANDLE}/shorts"
     options = {"quiet": True, "no_warnings": True, "extract_flat": True}
     with yt_dlp.YoutubeDL(options) as ydl:
         channel = ydl.extract_info(channel_url, download=False)
@@ -952,7 +952,7 @@ def _record_seo(video, result, model, updated_at):
 
 def _refresh_seo(db, force_ids=None):
     try:
-        refresh_limit = max(0, int(os.getenv("REFRESH_PER_DAY") or "35"))
+        refresh_limit = max(0, int(os.getenv("REFRESH_PER_DAY") or "20"))
         daily_limit = max(0, int(os.getenv("GEMINI_DAILY_REQUEST_LIMIT") or "18"))
     except ValueError as error:
         raise ValueError("REFRESH_PER_DAY and GEMINI_DAILY_REQUEST_LIMIT must be integers") from error
@@ -1159,11 +1159,11 @@ def generate_site(db):
         number = page_index + 1
         path = "" if number == 1 else f"page/{number}/"
         canonical = base_url + path
-        heading = "Hassan Paracha Videos" if number == 1 else f"Hassan Paracha Videos - Page {number}"
+        heading = "Bilal Nazir Videos" if number == 1 else f"Bilal Nazir Videos - Page {number}"
         body = _build_listing_page(
             videos[page_index * PAGE_SIZE:(page_index + 1) * PAGE_SIZE],
             title=heading,
-            description="Watch Hassan Paracha's YouTube videos, shorts, family moments, and motorcycle stories.",
+            description="Watch Bilal Nazir's YouTube videos, shorts, family moments, and motorcycle stories.",
             canonical=canonical,
             prefix=("../../" if number > 1 else ""),
             page_number=number,

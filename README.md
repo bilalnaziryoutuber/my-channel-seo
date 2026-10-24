@@ -1,7 +1,7 @@
 # My Channel SEO
 
 This repository runs a daily, read-only YouTube metadata sync for
-`@hassanparachaoffical`, refreshes SEO metadata with Gemini, generates a static
+`@BilalNazir-76`, refreshes SEO metadata with Gemini, generates a static
 site, commits its database state, and deploys it to GitHub Pages.
 
 ## Pipeline

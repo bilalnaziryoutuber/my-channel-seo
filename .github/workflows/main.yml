@@ -14,7 +14,7 @@ on:
         description: Maximum SEO refreshes per run
         required: false
         type: string
-        default: '35'
+        default: '20'
       dry_run:
         description: Skip YouTube, autocomplete, Gemini, and database writes
         required: false
@@ -54,9 +54,9 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SYNC_SLICE_SIZE: ${{ inputs.sync_slice_size || '50' }}
-          REFRESH_PER_DAY: ${{ inputs.refresh_per_day || '35' }}
+          REFRESH_PER_DAY: ${{ inputs.refresh_per_day || '20' }}
           DRY_RUN: ${{ inputs.dry_run || '0' }}
-          SITE_BASE_URL: https://hassan-paracha.github.io/my-channel-seo/
+          SITE_BASE_URL: https://bilalnaziryoutuber.github.io/my-channel-seo/
         run: python engine.py
 
       - name: Commit and push database state
