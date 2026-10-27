@@ -1,12 +1,80 @@
 import json
 import re
 import shutil
-from types import SimpleNamespace
+import sys
+from types import ModuleType, SimpleNamespace
 from datetime import datetime, timezone
 
 import pytest
 
 import engine
+
+
+def test_get_trending_keywords_collects_and_deduplicates_both_countries(monkeypatch):
+    requested = []
+
+    class FakeTrendReq:
+        def __init__(self, **options):
+            assert options["timeout"] == (1, 1)
+            assert options["retries"] == 0
+            self.geo = None
+
+        def trending_searches(self, pn):
+            return [f"{pn} top search", "Shared trend"]
+
+        def build_payload(self, kw_list, timeframe, geo):
+            requested.append((kw_list, timeframe, geo))
+            self.geo = geo
+
+        def related_queries(self):
+            return {
+                topic: {
+                    "top": [{"query": f"{self.geo} {topic}"}],
+                    "rising": [{"query": "Shared trend"}],
+                }
+                for topic in [
+                    "youtube shorts", "viral video", "trending pakistan",
+                    "vlog", "funny video",
+                ]
+            }
+
+    pytrends_module = ModuleType("pytrends")
+    request_module = ModuleType("pytrends.request")
+    request_module.TrendReq = FakeTrendReq
+    pytrends_module.request = request_module
+    monkeypatch.setitem(sys.modules, "pytrends", pytrends_module)
+    monkeypatch.setitem(sys.modules, "pytrends.request", request_module)
+
+    result = engine.get_trending_keywords()
+    terms = [term.strip() for term in result.split(",")]
+
+    assert "pakistan top search" in terms
+    assert "india top search" in terms
+    assert "PK youtube shorts" in terms
+    assert "IN funny video" in terms
+    assert terms.count("Shared trend") == 1
+    assert len(terms) <= 20
+    assert [request[2] for request in requested] == ["PK", "IN"]
+    assert all(request[1] == "now 7-d" for request in requested)
+    assert all(len(request[0]) == 5 for request in requested)
+
+
+def test_get_trending_keywords_falls_back_silently(monkeypatch, capsys):
+    pytrends_module = ModuleType("pytrends")
+    request_module = ModuleType("pytrends.request")
+
+    class FailingTrendReq:
+        def __init__(self, **_options):
+            raise RuntimeError("rate limited")
+
+    request_module.TrendReq = FailingTrendReq
+    pytrends_module.request = request_module
+    monkeypatch.setitem(sys.modules, "pytrends", pytrends_module)
+    monkeypatch.setitem(sys.modules, "pytrends.request", request_module)
+
+    assert engine.get_trending_keywords() == engine.DEFAULT_TRENDING_KEYWORDS
+    assert capsys.readouterr().out == ""
+    assert capsys.readouterr().err == ""
 
 
 def test_database_load_save_and_corrupt_json_safety(tmp_path, monkeypatch):
@@ -82,6 +150,47 @@ def test_title_batching_uses_one_structured_request_per_forty(monkeypatch):
     assert [len(json.loads(request["contents"].split("Input JSON:\n", 1)[1])) for request in requests] == [40, 1]
     assert all(request["config"]["response_mime_type"] == "application/json" for request in requests)
     assert all(video["polished"] for video in database.values())
+
+
+def test_gemini_title_prompt_includes_run_trends_and_video_context(monkeypatch):
+    requests = []
+
+    class FakeModels:
+        def generate_content(self, **kwargs):
+            requests.append(kwargs)
+            return SimpleNamespace(text=json.dumps([{
+                "id": "video-id",
+                "title": "Bike Start Kaise Karein",
+                "description": "Learn a useful bike tip. Watch this short for the fix.",
+                "keywords": ["bike", "start", "motorcycle", "shorts", "Hinglish"],
+            }]))
+
+    class FakeClient:
+        models = FakeModels()
+
+    monkeypatch.setattr(
+        engine, "_seo_model_input",
+        lambda _video_id, _video: {
+            "id": "video-id",
+            "original_title": "Bike won't start",
+            "youtube_description": "Bike context " + ("x" * 120),
+        },
+    )
+
+    model, parsed, quota = engine._generate_seo_batch(
+        FakeClient(), ["gemini-test"],
+        [("video-id", {"original_title": "Bike won't start"})],
+        {"video-id": {}}, {}, 5, "Pakistan bike trends, India viral shorts",
+    )
+
+    prompt = requests[0]["contents"]
+    assert f"It's {engine.date.today().isoformat()}." in prompt
+    assert "Pakistan bike trends, India viral shorts" in prompt
+    assert "Video context hint: " + ("Bike context " + ("x" * 87)) in prompt
+    assert "Return ONLY the rewritten title, nothing else: Bike won't start" in prompt
+    assert model == "gemini-test"
+    assert parsed[0]["id"] == "video-id"
+    assert quota is False
 
 
 def test_html_escapes_untrusted_content_and_keeps_valid_json_ld():

@@ -3,6 +3,7 @@ import json
 import os
 import random
 import re
+import threading
 import tempfile
 import time
 from datetime import date, datetime, timezone
@@ -15,20 +16,91 @@ from xml.sax.saxutils import escape as xml_escape
 import yt_dlp
 from google import genai
 
-CHANNEL_HANDLE = "@BilalNazir-76"
+CHANNEL_HANDLE = "@hassanparachaoffical"
 DB_FILE = "video_db.json"
 SITE_DIR = Path("site")
 DEFAULT_SITE_BASE_URL = "https://bilalnaziryoutuber.github.io/my-channel-seo/"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
-BATCH_SIZE = 40
-PAGE_SIZE = 24
+BATCH_SIZE = 5
+PAGE_SIZE = 50
+DAILY_INDEX_LIMIT = 150
+COOLDOWN = 65
 MAX_DAILY_GEMINI_REQUESTS = 250
 GEMINI_REQUEST_INTERVAL = 6.1
 GOOGLE_VERIFICATION_TAG = '<meta name="google-site-verification" content="QyDSUhm4hfRGneKuDBC1rA-p19E7Y2lI_Eh9krE5nVY" />'
 PROMPT_VERSION = 1
-SEO_BATCH_SIZE = 35
+SEO_BATCH_SIZE = BATCH_SIZE
 MIN_REFRESH_DAYS = 21
+UNPOLISHED_DATE = "2000-01-01"
+DEFAULT_TRENDING_KEYWORDS = (
+    "viral shorts, trending pakistan, funny video, vlog, hindi, urdu, desi, "
+    "reels, youtube shorts 2025"
+)
 _AUTOCOMPLETE_CACHE = {}
+
+
+def get_trending_keywords():
+    """Fetch recent Pakistan/India searches and related YouTube queries."""
+    def fetch():
+        from pytrends.request import TrendReq
+
+        client = TrendReq(
+            hl="en-US", tz=0, timeout=(1, 1), retries=0, backoff_factor=0
+        )
+        topics = [
+            "youtube shorts", "viral video", "trending pakistan", "vlog",
+            "funny video",
+        ]
+        keywords = []
+
+        def append_terms(table):
+            if table is None:
+                return
+            if hasattr(table, "columns"):
+                if getattr(table, "empty", False):
+                    return
+                column = "query" if "query" in table.columns else table.columns[0]
+                values = table[column].tolist()
+            else:
+                values = table
+            for value in values:
+                if isinstance(value, dict):
+                    value = value.get("query") or value.get("title") or ""
+                term = " ".join(str(value).split()).strip()
+                if term:
+                    keywords.append(term)
+
+        for country, geo in (("pakistan", "PK"), ("india", "IN")):
+            append_terms(client.trending_searches(pn=country))
+            client.build_payload(kw_list=topics, timeframe="now 7-d", geo=geo)
+            related = client.related_queries() or {}
+            for topic in topics:
+                for query_group in (related.get(topic) or {}).values():
+                    append_terms(query_group)
+
+        unique = []
+        seen = set()
+        for keyword in keywords:
+            key = keyword.casefold()
+            if key not in seen:
+                seen.add(key)
+                unique.append(keyword)
+        return ", ".join(unique[:20]) or DEFAULT_TRENDING_KEYWORDS
+
+    result = []
+
+    def fetch_silently():
+        try:
+            result.append(fetch())
+        except Exception:
+            result.append(DEFAULT_TRENDING_KEYWORDS)
+
+    worker = threading.Thread(target=fetch_silently, daemon=True)
+    worker.start()
+    worker.join(timeout=25)
+    if worker.is_alive() or not result:
+        return DEFAULT_TRENDING_KEYWORDS
+    return result[0]
 
 def load_db():
     if not os.path.exists(DB_FILE):
@@ -497,8 +569,15 @@ def migrate_database(db):
             video["seo_history"] = []
         video.setdefault("last_synced", None)
         video.setdefault("published_at", None)
+        video.setdefault("upload_date", video.get("published_at"))
         video.setdefault("duration_seconds", video.get("duration"))
+        video.setdefault("duration", video.get("duration_seconds"))
         video.setdefault("view_count", None)
+        if "last_refreshed" not in video:
+            seo_updated_at = (video.get("seo") or {}).get("updated_at")
+            video["last_refreshed"] = (
+                video.get("polished_at") or seo_updated_at or UNPOLISHED_DATE
+            )
         video["seo_refresh_pending"] = bool(video.get("seo_refresh_pending", False))
         if not isinstance(video.get("tags"), list):
             video["tags"] = []
@@ -525,7 +604,6 @@ def migrate_database(db):
         video.pop("polished", None)
         video.pop("polished_at", None)
         video.pop("duration", None)
-        video.pop("last_refreshed", None)
     return db
 
 
@@ -545,11 +623,15 @@ def _get_videos_with_ytdlp():
     for entry in listing.get("entries") or []:
         if not entry or not entry.get("id"):
             continue
-        videos.append({
+        video = {
             "id": str(entry["id"]),
             "title": entry.get("title") or "YouTube Video",
             "upload_date": entry.get("upload_date"),
-        })
+        }
+        for field in ("view_count", "duration"):
+            if entry.get(field) is not None:
+                video[field] = entry[field]
+        videos.append(video)
     return videos
 
 
@@ -584,7 +666,9 @@ def _apply_listing_sync(db, listing):
                 "seo_history": [],
                 "last_synced": None,
                 "published_at": _published_date(item.get("upload_date")),
+                "upload_date": item.get("upload_date"),
                 "duration_seconds": None,
+                "duration": item.get("duration"),
                 "view_count": None,
                 "tags": [],
                 "description": "",
@@ -596,6 +680,13 @@ def _apply_listing_sync(db, listing):
         video["missing_count"] = 0
         if not video.get("published_at"):
             video["published_at"] = _published_date(item.get("upload_date"))
+        if item.get("upload_date"):
+            video["upload_date"] = item["upload_date"]
+        if item.get("view_count") is not None:
+            video["view_count"] = item["view_count"]
+        if item.get("duration") is not None:
+            video["duration"] = item["duration"]
+        video.setdefault("last_refreshed", UNPOLISHED_DATE)
     if removal_allowed:
         for video_id, video in db.items():
             if video_id in listing_ids:
@@ -669,8 +760,10 @@ def _detail_sync(db):
         upload_date = _published_date(info.get("upload_date"))
         if upload_date:
             video["published_at"] = upload_date
+            video["upload_date"] = info.get("upload_date") or upload_date
         video["description"] = str(info.get("description") or "")
         video["duration_seconds"] = info.get("duration")
+        video["duration"] = info.get("duration")
         video["view_count"] = info.get("view_count")
         video["tags"] = info.get("tags") if isinstance(info.get("tags"), list) else []
         video["last_synced"] = _timestamp_now()
@@ -689,6 +782,9 @@ def _seo_queue(db, refresh_per_day, force_ids=None, now=None):
     eligible = []
     for video_id, video in db.items():
         if video.get("status", "active") != "active":
+            continue
+        if video.get("last_refreshed") == UNPOLISHED_DATE:
+            eligible.append((0, "", video_id, video))
             continue
         seo = video.get("seo")
         if not isinstance(seo, dict):
@@ -869,11 +965,29 @@ def _available_gemini_models(client):
     return [name for name in configured if name in listed]
 
 
-def _generate_seo_batch(client, models, batch, db, request_counts, daily_limit):
+def _generate_seo_batch(
+    client, models, batch, db, request_counts, daily_limit,
+    trending_keywords=DEFAULT_TRENDING_KEYWORDS,
+):
     expected_ids = [video_id for video_id, _ in batch]
     inputs = [_seo_model_input(video_id, video) for video_id, video in batch]
+    today = date.today().isoformat()
+    for item in inputs:
+        description = item["youtube_description"][:100]
+        item["title_prompt"] = (
+            f"It's {today}. These are currently trending search terms in Pakistan and India: "
+            f"{trending_keywords}.\n\n"
+            "Rewrite this YouTube video title to maximize CTR and SEO using the most "
+            "relevant trending terms above. Use a natural Hinglish + English mix. "
+            "Keep it under 70 characters. "
+            f"Video context hint: {description}.\n\n"
+            "Return ONLY the rewritten title, nothing else: "
+            f"{item['original_title']}"
+        )
     prompt = (
         "Create truthful YouTube SEO metadata in Hinglish + English for each video. "
+        "Use each title_prompt as the title-writing instruction, preserving factual accuracy. "
+        "The response itself must still follow the requested structured JSON schema. "
         "Use one primary keyword phrase in the title, title at most 70 characters and no "
         "more than one hashtag. Description must be 2-3 unique sentences and at most 250 "
         "characters. Return 5-8 concise keywords. Do not invent events or details. "
@@ -948,11 +1062,15 @@ def _record_seo(video, result, model, updated_at):
         "source_tags": list(video.get("tags") or []) if isinstance(video.get("tags"), list) else [],
     }
     video["seo_refresh_pending"] = False
+    video["last_refreshed"] = updated_at[:10]
 
 
-def _refresh_seo(db, force_ids=None):
+def _refresh_seo(db, force_ids=None, trending_keywords=DEFAULT_TRENDING_KEYWORDS):
     try:
-        refresh_limit = max(0, int(os.getenv("REFRESH_PER_DAY") or "20"))
+        refresh_limit = min(
+            DAILY_INDEX_LIMIT,
+            max(0, int(os.getenv("REFRESH_PER_DAY") or str(DAILY_INDEX_LIMIT))),
+        )
         daily_limit = max(0, int(os.getenv("GEMINI_DAILY_REQUEST_LIMIT") or "18"))
     except ValueError as error:
         raise ValueError("REFRESH_PER_DAY and GEMINI_DAILY_REQUEST_LIMIT must be integers") from error
@@ -975,7 +1093,8 @@ def _refresh_seo(db, force_ids=None):
     for offset in range(0, len(queue), SEO_BATCH_SIZE):
         batch = queue[offset:offset + SEO_BATCH_SIZE]
         model, results, quota = _generate_seo_batch(
-            client, models, batch, db, request_counts, daily_limit
+            client, models, batch, db, request_counts, daily_limit,
+            trending_keywords,
         )
         if quota:
             quota_stopped = True
@@ -1020,13 +1139,15 @@ def _render_video_card(video_id, video, prefix):
 
 
 def _site_head(title, description, canonical, image="", og_type="website"):
+    site_description = "Hassan Paracha YouTube channel — Shorts, Vlogs & more"
     return f"""<head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 {GOOGLE_VERIFICATION_TAG}
 <title>{html.escape(title, quote=True)}</title>
-<meta name="description" content="{html.escape(description, quote=True)}">
+<meta name="description" content="{html.escape(site_description, quote=True)}">
+<meta name="keywords" content="Hassan Paracha, YouTube Shorts, Pakistani vlogger, Hinglish videos">
 <link rel="canonical" href="{html.escape(canonical, quote=True)}">
-<meta property="og:title" content="{html.escape(title, quote=True)}">
+<meta property="og:title" content="Hassan SEO Hub">
 <meta property="og:description" content="{html.escape(description, quote=True)}">
 <meta property="og:url" content="{html.escape(canonical, quote=True)}">
 <meta property="og:type" content="{html.escape(og_type, quote=True)}">
@@ -1064,6 +1185,10 @@ def _build_listing_page(videos, *, title, description, canonical, prefix, page_n
     cards = "".join(_render_video_card(video_id, video, prefix) for video_id, video in videos)
     if not cards:
         cards = "<p>No videos yet.</p>"
+    image = (
+        f"https://i.ytimg.com/vi/{quote(videos[0][0], safe='')}/hqdefault.jpg"
+        if videos else ""
+    )
     pagination = ""
     if page_count > 1:
         prev_path = ("../../" if page_number == 2 else f"../{page_number - 1}/") if page_number > 1 else None
@@ -1077,7 +1202,7 @@ def _build_listing_page(videos, *, title, description, canonical, prefix, page_n
         )
     return (
         "<!doctype html><html lang=\"en\">" +
-        _site_head(title, description, canonical) +
+        _site_head(title, description, canonical, image) +
         f"<body><main><h1>{html.escape(title, quote=True)}</h1>"
         f"<p>{html.escape(description, quote=True)}</p><section class=\"videos\">{cards}</section>"
         f"{pagination}</main>{_facade_script()}</body></html>"
@@ -1128,11 +1253,216 @@ def _build_video_page(video_id, video, related, base_url, topic):
     )
 
 
+def _format_view_count(value):
+    try:
+        count = int(value)
+    except (TypeError, ValueError):
+        return "Views unavailable"
+    if count >= 1_000_000_000:
+        return f"{count / 1_000_000_000:.1f}B views"
+    if count >= 1_000_000:
+        return f"{count / 1_000_000:.1f}M views"
+    if count >= 1_000:
+        return f"{count / 1_000:.1f}K views"
+    return f"{count:,} views"
+
+
+def _format_duration(value):
+    if value is None:
+        return "Duration unavailable"
+    try:
+        seconds = int(float(value))
+    except (TypeError, ValueError):
+        match = re.fullmatch(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", str(value))
+        if not match:
+            return str(value)
+        hours, minutes, seconds = (int(part or 0) for part in match.groups())
+        seconds = hours * 3600 + minutes * 60 + seconds
+    minutes, seconds = divmod(max(0, seconds), 60)
+    if minutes >= 60:
+        hours, minutes = divmod(minutes, 60)
+        return f"{hours}:{minutes:02d}:{seconds:02d}"
+    return f"{minutes}:{seconds:02d}"
+
+
+def _flat_catalog_page(videos, all_videos, base_url, page_number, page_count):
+    page_filename = "index.html" if page_number == 1 else f"page{page_number}.html"
+    canonical = base_url if page_number == 1 else base_url + page_filename
+    first_id = videos[0][0] if videos else (all_videos[0][0] if all_videos else "")
+    image = (
+        f"https://i.ytimg.com/vi/{quote(first_id, safe='')}/hqdefault.jpg"
+        if first_id else ""
+    )
+    video_data = []
+    for video_id, video in all_videos:
+        upload_date = video.get("upload_date") or video.get("published_at")
+        if isinstance(upload_date, str) and re.fullmatch(r"\d{8}", upload_date):
+            upload_date = f"{upload_date[:4]}-{upload_date[4:6]}-{upload_date[6:8]}"
+        video_data.append({
+            "id": video_id,
+            "title": str((video.get("seo") or {}).get("title") or "YouTube Video"),
+            "description": str((video.get("seo") or {}).get("description") or ""),
+            "view_count": video.get("view_count"),
+            "upload_date": upload_date,
+            "duration": _format_duration(video.get("duration_seconds", video.get("duration"))),
+        })
+    page_ids = [video_id for video_id, _ in videos]
+    noscript_links = "".join(
+        f'<a href="v/{quote(video_id, safe="")}/">{html.escape(str((video.get("seo") or {}).get("title") or "YouTube Video"), quote=True)}</a> '
+        for video_id, video in videos
+    )
+    previous = (
+        '<a rel="prev" href="index.html">Previous</a>'
+        if page_number == 2 else
+        f'<a rel="prev" href="page{page_number - 1}.html">Previous</a>'
+        if page_number > 2 else ""
+    )
+    following = (
+        f'<a rel="next" href="page{page_number + 1}.html">Next</a>'
+        if page_number < page_count else ""
+    )
+    pagination = (
+        f'<nav class="pagination" aria-label="Video pages">{previous}'
+        f'<span>Page {page_number} of {page_count}</span>{following}</nav>'
+        if page_count > 1 else ""
+    )
+    safe_data = _json_ld(video_data)
+    safe_ids = _json_ld(page_ids)
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hassan SEO Hub</title>
+<meta name="description" content="Hassan Paracha YouTube channel — Shorts, Vlogs &amp; more">
+<meta name="keywords" content="Hassan Paracha, YouTube Shorts, Pakistani vlogger, Hinglish videos">
+<meta property="og:title" content="Hassan SEO Hub">
+<meta property="og:image" content="{html.escape(image, quote=True)}">
+<link rel="canonical" href="{html.escape(canonical, quote=True)}">
+<style>
+:root {{ color-scheme: light dark; --page:#f3f5f2; --surface:#fff; --ink:#192522; --muted:#64716c; --line:#dce3df; --accent:#c73422; }}
+* {{ box-sizing:border-box; }}
+body {{ margin:0; background:var(--page); color:var(--ink); font-family:system-ui,sans-serif; }}
+main {{ max-width:1440px; margin:auto; padding:24px; }}
+header {{ display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:22px; }}
+h1 {{ margin:0; font-size:clamp(1.5rem, 3vw, 2rem); }}
+.search {{ width:min(440px, 100%); padding:12px 14px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); font:inherit; }}
+.videos {{ display:grid; grid-template-columns:1fr; gap:16px; }}
+.card {{ min-width:0; overflow:hidden; background:var(--surface); border:1px solid var(--line); border-radius:6px; }}
+.video-thumb {{ display:block; position:relative; width:100%; aspect-ratio:16/9; padding:0; border:0; background:#111; cursor:pointer; }}
+.video-thumb img,.video-thumb iframe {{ display:block; width:100%; height:100%; object-fit:cover; border:0; }}
+.play {{ position:absolute; inset:0; display:grid; place-items:center; color:#fff; font-size:44px; text-shadow:0 2px 8px #000; pointer-events:none; }}
+.card-content {{ padding:13px 14px 15px; }}
+.card h2 {{ margin:0 0 10px; font-size:1rem; line-height:1.4; }}
+.metadata {{ display:flex; flex-wrap:wrap; gap:6px 14px; color:var(--muted); font-size:.875rem; }}
+.watch {{ display:inline-block; margin-top:12px; color:var(--accent); font-weight:650; }}
+.pagination {{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:26px 0 8px; }}
+.pagination a {{ color:var(--accent); font-weight:650; }}
+.empty {{ padding:40px 0; color:var(--muted); }}
+@media (min-width:640px) {{ .videos {{ grid-template-columns:repeat(2,minmax(0,1fr)); }} }}
+@media (min-width:1024px) {{ .videos {{ grid-template-columns:repeat(3,minmax(0,1fr)); }} }}
+@media (min-width:1380px) {{ .videos {{ grid-template-columns:repeat(4,minmax(0,1fr)); }} }}
+@media (prefers-color-scheme:dark) {{
+  :root {{ --page:#151b19; --surface:#202925; --ink:#ecf2ee; --muted:#a9b5ae; --line:#39443e; --accent:#ff8069; }}
+}}
+</style>
+</head>
+<body>
+<script id="video-data" type="application/json">{safe_data}</script>
+<main>
+<header><h1>Hassan SEO Hub</h1><input class="search" id="search" type="search" placeholder="Search videos" aria-label="Search videos"></header>
+<noscript>{noscript_links}</noscript>
+<section class="videos" id="videos" aria-label="Polished videos"></section>
+<p class="empty" id="empty" hidden>No matching videos.</p>
+{pagination}
+</main>
+<script>
+const allVideos = JSON.parse(document.getElementById("video-data").textContent);
+const pageIds = new Set({safe_ids});
+const grid = document.getElementById("videos");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+function makeCard(video) {{
+  const card = document.createElement("article"); card.className = "card";
+  const play = document.createElement("button"); play.className = "video-thumb"; play.type = "button";
+  play.setAttribute("aria-label", "Play " + video.title); play.dataset.videoId = video.id;
+  const img = document.createElement("img"); img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(video.id) + "/hqdefault.jpg";
+  img.alt = video.title; img.loading = "lazy";
+  const icon = document.createElement("span"); icon.className = "play"; icon.textContent = "▶";
+  play.append(img, icon);
+  play.addEventListener("click", function() {{
+    const frame = document.createElement("iframe");
+    frame.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(video.id) + "?autoplay=1";
+    frame.title = video.title; frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    frame.allowFullscreen = true; play.replaceChildren(frame);
+  }});
+  const content = document.createElement("div"); content.className = "card-content";
+  const title = document.createElement("h2"); title.textContent = video.title;
+  const meta = document.createElement("div"); meta.className = "metadata";
+  const views = Number(video.view_count);
+  const viewLabel = Number.isFinite(views) ? (views >= 1e6 ? (views / 1e6).toFixed(1).replace(/\\.0$/, "") + "M" : views >= 1e3 ? (views / 1e3).toFixed(1).replace(/\\.0$/, "") + "K" : views.toLocaleString()) + " views" : "Views unavailable";
+    [viewLabel, video.upload_date || "Date unavailable"].forEach(function(value) {{
+    if (value) {{ const span = document.createElement("span"); span.textContent = value; meta.append(span); }}
+  }});
+  const duration = document.createElement("span");
+    duration.textContent = video.duration || "Duration unavailable";
+  meta.append(duration);
+  const link = document.createElement("a"); link.className = "watch"; link.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(video.id);
+  link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = "Watch on YouTube";
+  content.append(title, meta, link); card.append(play, content); return card;
+}}
+function render(videos) {{
+  grid.replaceChildren(...videos.map(makeCard)); empty.hidden = videos.length !== 0;
+}}
+function showPage() {{ render(allVideos.filter(video => pageIds.has(video.id))); }}
+showPage();
+search.addEventListener("input", function() {{
+  const query = search.value.trim().toLocaleLowerCase();
+  document.querySelectorAll(".pagination").forEach(nav => nav.hidden = Boolean(query));
+  if (!query) {{ showPage(); return; }}
+  render(allVideos.filter(video => (video.title + " " + video.description).toLocaleLowerCase().includes(query)).slice(0, 50));
+}});
+</script>
+</body>
+</html>'''
+
+
+def _generate_flat_catalog(videos, base_url):
+    root_dir = SITE_DIR.parent if SITE_DIR.name == "site" else Path(".")
+    root_dir.mkdir(parents=True, exist_ok=True)
+    page_count = max(1, (len(videos) + PAGE_SIZE - 1) // PAGE_SIZE)
+    for page_index in range(page_count):
+        page_number = page_index + 1
+        page_videos = videos[page_index * PAGE_SIZE:(page_index + 1) * PAGE_SIZE]
+        body = _flat_catalog_page(videos=page_videos, all_videos=videos,
+                                  base_url=base_url, page_number=page_number,
+                                  page_count=page_count)
+        filename = "index.html" if page_number == 1 else f"page{page_number}.html"
+        (root_dir / filename).write_text(body, encoding="utf-8")
+        (SITE_DIR / filename).write_text(body, encoding="utf-8")
+    for output_dir in {root_dir, SITE_DIR}:
+        for stale_page in output_dir.glob("page[0-9]*.html"):
+            match = re.fullmatch(r"page(\d+)\.html", stale_page.name)
+            if match and int(match.group(1)) > page_count:
+                stale_page.unlink()
+    sitemap_urls = [
+        f"<url><loc>{xml_escape(base_url + _page_url_path(video_id))}</loc></url>"
+        for video_id, _ in videos
+    ]
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        + "".join(sitemap_urls) + "</urlset>\n"
+    )
+    (root_dir / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+
+
 def generate_site(db):
     base_url = os.getenv("SITE_BASE_URL", DEFAULT_SITE_BASE_URL).rstrip("/") + "/"
     records = [
         (video_id, video) for video_id, video in db.items()
-        if video.get("status", "active") == "active" and isinstance(video.get("seo"), dict)
+        if (video.get("status", "active") == "active"
+            and isinstance(video.get("seo"), dict)
+            and video["seo"].get("title"))
     ]
     known_dates = [
         item for item in records if _normalise_published_at(item[1].get("published_at"))
@@ -1249,10 +1579,13 @@ def generate_site(db):
         f"User-agent: *\nAllow: /\nSitemap: {base_url}sitemap.xml\n",
         encoding="utf-8",
     )
+    _generate_flat_catalog(videos, base_url)
     return len(videos), len(page_paths)
 
 
 def run_rolling_cycle():
+    trending_keywords = get_trending_keywords()
+    print(f"Live trending keywords: {trending_keywords}")
     db = migrate_database(load_db())
     dry_run = os.getenv("DRY_RUN") == "1"
     changed_titles = set()
@@ -1266,6 +1599,16 @@ def run_rolling_cycle():
             )
             listing = None
         if listing is not None:
+            active_records = [
+                video for video in db.values()
+                if video.get("status", "active") == "active"
+            ]
+            if active_records and all(
+                video.get("last_refreshed") not in (None, "", UNPOLISHED_DATE)
+                for video in active_records
+            ):
+                print("All videos completed the polish cycle; starting a fresh database cycle.")
+                db.clear()
             try:
                 _apply_listing_sync(db, listing)
             except Exception as error:
@@ -1275,7 +1618,7 @@ def run_rolling_cycle():
                 )
         changed_titles = _detail_sync(db)
         save_db(db)
-        refreshed = _refresh_seo(db, changed_titles)
+        refreshed = _refresh_seo(db, changed_titles, trending_keywords)
         save_db(db)
         print(f"SEO refreshed: {refreshed}")
     else:
