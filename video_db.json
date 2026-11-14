@@ -114,7 +114,24 @@
         "status": "active",
         "missing_count": 0,
         "upload_date": null,
-        "last_refreshed": "2000-01-01"
+        "last_refreshed": "2026-11-14",
+        "seo": {
+            "title": "Kya motorcycle start ho gi #viralshorts",
+            "description": "Kya motorcycle start ho gi ya nahi? Watch this desi motorbike struggle in Hindi and Urdu. Enjoy trending YouTube shorts and funny moments.",
+            "keywords": [
+                "motorbike",
+                "viral shorts",
+                "desi",
+                "funny video",
+                "hindi",
+                "urdu",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:27.939724Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "i8GvpdMeZ3E": {
         "title": "kiy motercycle 🛵 start nhi Hoti 😱 #shortsfeed #shortvideo #viralshorts #shorts #viral",
@@ -217,7 +234,24 @@
         "status": "active",
         "missing_count": 0,
         "upload_date": null,
-        "last_refreshed": "2000-01-01"
+        "last_refreshed": "2026-11-14",
+        "seo": {
+            "title": "Kya hai bike start hi nhi hoti #viralshorts",
+            "description": "Kya hai bike start hi nhi hoti? A funny desi video capturing everyday bike struggles in Urdu and Hindi. Watch more trending shorts today.",
+            "keywords": [
+                "motorbike story",
+                "motorcycle stories",
+                "viral shorts",
+                "trending pakistan",
+                "funny video",
+                "urdu",
+                "desi"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:25.462645Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "8o13yZBsGsQ": {
         "title": "kaya bike 🏍️ start ho gi😱 #shortsfeed #shortvideo #viralshorts #viral #shorts",
@@ -2038,7 +2072,23 @@
         "status": "active",
         "missing_count": 0,
         "upload_date": null,
-        "last_refreshed": "2000-01-01"
+        "last_refreshed": "2026-11-14",
+        "seo": {
+            "title": "Gareeb ki bike truck ke neeche! 😱 #viralshorts",
+            "description": "Ek gareeb ki bike truck ke neeche aa gayi. Yeh shocking desi video dekh kar aap hairan reh jayenge. Don't miss this viral short!",
+            "keywords": [
+                "viral shorts",
+                "funny video",
+                "desi reels",
+                "trending pakistan",
+                "motorcycle stories",
+                "hindi vlog"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:19.539320Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "S4jL8Gaqvsg": {
         "title": "masjid 🕋 jaty wkat bike 🛵 khrab #shortsfeed #shortvideo #viralvideo #shorts #viral",
@@ -2572,7 +2622,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 84000,
+        "view_count": 85000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -2669,7 +2719,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 80000,
+        "view_count": 82000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -2685,7 +2735,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 133000,
+        "view_count": 135000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -2817,7 +2867,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 245000,
+        "view_count": 249000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -2883,7 +2933,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 6000,
+        "view_count": 6200,
         "tags": [],
         "description": "",
         "status": "active",
@@ -2948,7 +2998,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 18000,
+        "view_count": 19000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -3046,7 +3096,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 7400,
+        "view_count": 7500,
         "tags": [],
         "description": "",
         "status": "active",
@@ -3332,7 +3382,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 18,
         "seo": {
             "title": "Hassan ne yeh kya kiya? | Hindi vlog #shorts",
             "description": "Hassan ne achanak yeh kya kar diya? Dekhiye is interesting aur viral short video mein.",
@@ -3349,7 +3398,8 @@
             "updated_at": "2026-11-12T23:58:57.064711Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 18
     },
     "MtYPmdY7TtA": {
         "original_title": "Greeb ki motercyele 🛵start khrab ho gai 🤔😱#shortvideo #viralshorts #shortsfeed #shorts #viral",
@@ -3605,9 +3655,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Motorbike kharab ho jaye toh kya karein #viralshorts",
+            "description": "Jab motorbike kharab ho jaye aur start na ho toh kya hota hai? Watch this funny desi video in Hindi and Urdu. Enjoy trending reels and shorts today.",
+            "keywords": [
+                "motorbike",
+                "viral shorts",
+                "desi",
+                "funny video",
+                "vlog",
+                "hindi",
+                "urdu"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:27.939724Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "rEYar_wRMaU": {
         "original_title": "Kaya hi Moterbike 🏍️start ni hoti🤔 #shortsvideo #viralshot #shortsfeed #shorts #viral",
@@ -3957,7 +4024,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 51000,
+        "view_count": 52000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -4468,7 +4535,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 6,
         "seo": {
             "title": "Motorcycle ki chabi band! #viralshorts",
             "description": "Motorcycle ki chabi band hone par kya hua? Dekhiye is funny aur interesting desi vlog mein. Trending shorts mein yeh bike story zaroor dekhein.",
@@ -4485,7 +4551,8 @@
             "updated_at": "2026-11-12T23:59:04.108054Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 6
     },
     "eUGQ2dlyaj8": {
         "original_title": "Motorcycle 🛵khrab start hoti ni 🤔 #shortvideo #viralshorts #shortsfeed #shorts #viral",
@@ -5167,9 +5234,25 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 6
+        "duration": 6,
+        "seo": {
+            "title": "Khrab bike ko kaise start karein? 🤔 #viralshorts",
+            "description": "Agar bike kharab ho jaye toh usko kaise start karein? Seekhiye is funny aur informative desi video mein. Like aur share karna na bhulein.",
+            "keywords": [
+                "viral shorts",
+                "motorbike story",
+                "desi vlog",
+                "trending pakistan",
+                "funny video",
+                "hindi reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:19.539320Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "aKljBcDctk4": {
         "original_title": "Motorcycle 🛵Khaab Kaise karo start 🤔 #shortvideo #viralvideo #shortsfeed #shorts #viral",
@@ -5456,7 +5539,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 118000000,
+        "view_count": 119000000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -5767,9 +5850,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 6
+        "duration": 6,
+        "seo": {
+            "title": "Kaya bike start karna mushkil #viralshorts",
+            "description": "Kaya bike start karna itna mushkel hi? Watch this funny desi vlog capturing a common motorcycle struggle. Experience the best trending shorts.",
+            "keywords": [
+                "motorbike story",
+                "motorcycle stories",
+                "viral shorts",
+                "trending pakistan",
+                "funny video",
+                "vlog",
+                "hindi"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:25.462645Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "w7t8DmV4A3U": {
         "original_title": "Kaya ye new video hi 🤔#viral #funny #comedy #viralshot #funnymoment #funnyreel",
@@ -6077,7 +6177,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 5,
         "seo": {
             "title": "Yar is bike ko start kar de koi! 🏍️ #funny",
             "description": "Kya koi is bike ko start kar payega? Yeh ek mazedaar desi vlog moment hai. End tak zaroor dekhein.",
@@ -6094,7 +6193,8 @@
             "updated_at": "2026-11-12T23:59:01.085022Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 5
     },
     "E1CBjc3W5qA": {
         "original_title": "kaya bike 🏍️jula de gi aj 🤔 #shortsvideo #viralshot #shotsfeed #viral #shorts",
@@ -6140,9 +6240,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Ye kya kar diya funny surprise #viralshorts",
+            "description": "Watch what happens when someone asks ye kya kar diya. A shocking and funny desi moment in Hindi and Urdu. Enjoy the trending shorts today.",
+            "keywords": [
+                "funny video",
+                "viral shorts",
+                "desi",
+                "hindi",
+                "urdu",
+                "vlog",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:27.939724Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "IGkSRlKoWzE": {
         "original_title": "Bike Start Hui Ya Ghadha? 😱😂 (Donkey Sound Twist) #shorts #viral #shortvideo #shortsfeed #viralshot",
@@ -7329,7 +7446,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 5,
         "seo": {
             "title": "Kya bike aise hogi start? | Funny video #shorts",
             "description": "Kya bike aisi halat mein start ho sakti hai? Ek aur mazedaar desi vlog short.",
@@ -7346,7 +7462,8 @@
             "updated_at": "2026-11-12T23:58:57.064711Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 5
     },
     "rFVGrkM0JHQ": {
         "original_title": "kaya bike 🏍️start honi chye 😱🤔",
@@ -7394,7 +7511,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 6,
         "seo": {
             "title": "Jab jaldi ho aur bike dhoka de | Viral shorts",
             "description": "Jab bohat jaldi mein ho aur bike dhoka de jaye. Yeh funny desi short zaroor dekhein.",
@@ -7411,7 +7527,8 @@
             "updated_at": "2026-11-12T23:58:57.064711Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 6
     },
     "y5obETYDSa4": {
         "original_title": "Kaya bike 🏍️ki chabi on ni ki 🤔😱 #shortsvideo #viralshot #shotsfeed #shorts #viral",
@@ -8125,7 +8242,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 6,
         "seo": {
             "title": "Hassan ka milk monkey ko diya #viralshorts",
             "description": "Hassan ka milk monkey ko diya in this funny video. Watch this interesting desi moment explained in Urdu and Hindi. Enjoy more viral shorts now.",
@@ -8142,7 +8258,8 @@
             "updated_at": "2026-11-12T23:58:54.439875Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 6
     },
     "bA6OtWzVw8Q": {
         "original_title": "bike 🏍️start ni hoi har koi preshan 🤔 #shortsvideo #shotsfeed #viralvideo #shorts #youtubeshorts",
@@ -8286,9 +8403,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Kaya hi bike start ni hoi #viralshorts",
+            "description": "Bike start nahi hone par kya karein? Watch this funny desi vlog moment about a motorbike story. Enjoying trending shorts in Hindi and Urdu.",
+            "keywords": [
+                "motorbike story",
+                "motorcycle stories",
+                "viral shorts",
+                "trending pakistan",
+                "funny video",
+                "vlog",
+                "desi"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:25.462645Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "CR2ISrkoXZk": {
         "original_title": "Ek Bike 🏍️Aur 5 Sawariyan, Kya Yeh Start Ho Payegi🤔 #shotsfeed #viralshot #shortsvideo #shorts",
@@ -8760,9 +8894,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Kaya hi bike kick ni pakrati #viralshorts",
+            "description": "Kaya hi bike kick ni pakrati? Watch this funny desi vlog about motorcycle starting issues. Enjoy the latest trending shorts in Hindi and Urdu.",
+            "keywords": [
+                "motorbike story",
+                "motorcycle stories",
+                "viral shorts",
+                "trending pakistan",
+                "funny video",
+                "vlog",
+                "hindi"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:25.462645Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "29uhfIN6vr8": {
         "original_title": "greeb ki bike 🏍️masti me ruki 🤔 #shortsvideo #shotsfeed #viralshot #shorts #viral",
@@ -9282,9 +9433,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 9
+        "duration": 9,
+        "seo": {
+            "title": "Greeb ki bike bacho ki sawri #viralshorts",
+            "description": "Greeb ki bike aur bacho ki sawri funny moment. Watch this desi vlog capturing relatable motorcycle stories. Enjoy trending shorts in Urdu and Hindi.",
+            "keywords": [
+                "motorbike story",
+                "motorcycle stories",
+                "viral shorts",
+                "trending pakistan",
+                "funny video",
+                "vlog",
+                "urdu"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:25.462645Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "j9uOsv3x13k": {
         "original_title": "kaya hi bike 🏍️chalti hi ni 🤔 #shortsvideo #shorts #viralshot #shotsfeed #viral",
@@ -10049,9 +10217,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 7
+        "duration": 7,
+        "seo": {
+            "title": "Gareeb bachon ko kya mila? #viralshorts",
+            "description": "Gareeb bachon ko kya mila is emotional aur funny video mein. Ye ek desi vlog hai jo trending pakistan par dekhne ko milega.",
+            "keywords": [
+                "gareeb bache",
+                "viral shorts",
+                "funny video",
+                "desi vlog",
+                "hindi urdu",
+                "trending pakistan",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:23.023402Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "EIMjDgQuToA": {
         "original_title": "Papa ne Hassan ko keyu mara 😱 #shotsfeed #viralshot #shortsvideo #shorts #viral",
@@ -10562,7 +10747,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 7,
         "seo": {
             "title": "Bacho ke sath kya hua vlog #viralshorts",
             "description": "Bacho ke sath kya hua in this desi funny video. Watch what happened in Hindi and Urdu. Enjoy more trending reels and shorts today.",
@@ -10579,7 +10763,8 @@
             "updated_at": "2026-11-12T23:58:54.439875Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 7
     },
     "DMrfM7qx5OI": {
         "original_title": "Bacho ne Papa ko Hara Diya! 😂🏆 #shorts #shortvideos #viralshot #shotsfeed #trending",
@@ -11286,7 +11471,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 388,
+        "view_count": 390,
         "tags": [],
         "description": "",
         "status": "active",
@@ -11747,7 +11932,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 4,
         "seo": {
             "title": "Greeb ki bike ko kya hua? 😭 #vlog",
             "description": "Dekhiye is greeb ki bike ko achanak kya ho gaya. Yeh desi funny video aapko zaroor hasayegi. Like aur share karna na bhulein.",
@@ -11764,7 +11948,8 @@
             "updated_at": "2026-11-12T23:59:01.085022Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 4
     },
     "fVnZQL_B6vA": {
         "original_title": "greeb ki bike 🏍️keyo ruki 🤔 #shotsfeed #viralshot #shortvideos #shorts #youtuber #teels",
@@ -12176,7 +12361,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 241,
+        "view_count": 242,
         "tags": [],
         "description": "",
         "status": "active",
@@ -12230,9 +12415,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Gareeb bachay ke sath kya kiya? #funnyvideo",
+            "description": "Gareeb bachay ke sath kya kiya gaya is funny video mein. Dekhiye yeh desi vlog jo aapko hasa dega. Watch full short now.",
+            "keywords": [
+                "funny video",
+                "viral shorts",
+                "desi vlog",
+                "hindi urdu",
+                "trending pakistan",
+                "reels",
+                "youtube shorts"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:23.023402Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "NhE8xF1QuFc": {
         "original_title": "Best family Shorts 2026! (6-Hour Special) 🏆 #livefeed #viralshot #shotsvideo #youtuber #live",
@@ -12619,9 +12821,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 6
+        "duration": 6,
+        "seo": {
+            "title": "Hassan ke sath prank kiya #funnyvideo",
+            "description": "Hassan ke sath prank kiya gaya is funny video mein. Yeh ek mazedaar desi vlog hai jo trending pakistan me hai. Watch now!",
+            "keywords": [
+                "prank",
+                "funny video",
+                "viral shorts",
+                "desi vlog",
+                "hindi urdu",
+                "trending pakistan",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:23.023402Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "2LSdIG-U9L4": {
         "original_title": "is ko kaya Howa 😱🤔 #shotsfeed #viralshot #shotsvideo #shots #funny #youtuber",
@@ -12877,7 +13096,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 238,
+        "view_count": 240,
         "tags": [],
         "description": "",
         "status": "active",
@@ -13173,14 +13392,13 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 112,
+        "view_count": 114,
         "tags": [],
         "description": "",
         "status": "active",
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 1431,
         "seo": {
             "title": "Hassan Paracha thanking commenters ❤️ #vlog",
             "description": "Hassan Paracha apne sare commenters ka शुक्रिया ada kar rahe hain. Is cute desi vlog ko zaroor dekhein. Support banaye rakhein.",
@@ -13197,7 +13415,8 @@
             "updated_at": "2026-11-12T23:59:01.085022Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 1431
     },
     "r3AFHrInkAk": {
         "original_title": "Counting Subscriber with annoying childerens",
@@ -13667,7 +13886,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 5,
         "seo": {
             "title": "Gareeb ki bike kharab ho gayi | Trending pakistan #shorts",
             "description": "Gareeb ki bike raste mein kharab ho gayi. Yeh ek emotional aur viral short video hai.",
@@ -13684,7 +13902,8 @@
             "updated_at": "2026-11-12T23:58:57.064711Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 5
     },
     "rRlBTF8oHrI": {
         "original_title": "ye kaya ho gaya 🤔 #shotsfeed #viralshort #sad comedy #emotional #trending #trendingshorts #viral",
@@ -13732,7 +13951,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 37,
         "seo": {
             "title": "Gharib bachi ko acha sabq sikhaya #viralshorts",
             "description": "Gharib bachi ko aik acha sabq sikhaya gaya hai. Yeh emotional aur educational short video zaroor dekhein. Desi audience ke liye emotional story.",
@@ -13749,7 +13967,8 @@
             "updated_at": "2026-11-12T23:59:04.108054Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 37
     },
     "hCPuAtTYFKM": {
         "original_title": "Hassan ne kamal kar Diya 🤔 #shotfeeds #viralshort #shotsvideo #shots #viral #trending #motivational",
@@ -13979,7 +14198,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 24,
         "seo": {
             "title": "Kya papa ne theek kiya? #viralshorts",
             "description": "Kya papa ka faisla theek tha? Is emotional aur interesting desi vlog mein dekhein. YouTube shorts par yeh trending video zaroor enjoy karein.",
@@ -13996,7 +14214,8 @@
             "updated_at": "2026-11-12T23:59:04.108054Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 24
     },
     "RSdMAO3ShX8": {
         "original_title": "🤣😎Hassan bna Bhoot 👻🤣🤣|Hassan ke papa #shots #viralshorts #shotsvideo #bhoot #comedy #funny #reels",
@@ -14287,9 +14506,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 10
+        "duration": 10,
+        "seo": {
+            "title": "Hassan ke papa ki funny laughing #funnyvideo",
+            "description": "Hassan ke papa ki funny laughing is desi vlog mein dekhiye. Yeh ek mazedaar viral shorts video hai. Enjoy these hilarious moments!",
+            "keywords": [
+                "hassan ke papa",
+                "funny video",
+                "viral shorts",
+                "desi vlog",
+                "hindi urdu",
+                "trending pakistan",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:23.023402Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "KAZZ56ZPYyc": {
         "original_title": "Birds and insan ma kaya fark 🤔 #shotfeed #viralshort #shots #shotsvideo #viralvideo #motivation",
@@ -14416,9 +14652,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 9
+        "duration": 9,
+        "seo": {
+            "title": "Mami ki roti gol gol funny moments #viralshorts",
+            "description": "Watch this hilarious family funny video about mami ki roti gol gol. Enjoy the desi humor in Hindi and Urdu. Check out trending YouTube shorts now.",
+            "keywords": [
+                "funny video",
+                "viral shorts",
+                "family funny moments",
+                "desi",
+                "hindi",
+                "urdu",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:27.939724Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "6AbrcyNqtsY": {
         "original_title": "bike 🏍️ ne te tang ki kita piya 🤔#shotfeed #viralshort #shotsvideo #funny #reels #youtuber",
@@ -14579,7 +14832,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 30,
         "seo": {
             "title": "Greeb bache aur rani ka hal #viralshorts",
             "description": "Greeb bache aur rani ka yeh haal dekh kar aap bhi hairan reh jayenge. Ek behtareen motivational aur emotional short video. Desi vlog style.",
@@ -14596,7 +14848,8 @@
             "updated_at": "2026-11-12T23:59:04.108054Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 30
     },
     "Pg530S5VmDw": {
         "original_title": "Bhoot ne dra Diya|Hassan ke papa #shots #ytshorts #youtuber #viralshort #shotsvideo #shotfeed #reels",
@@ -14808,7 +15061,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 6,
         "seo": {
             "title": "Ya kis ne maara? 🤔 #comedy",
             "description": "Sochein yeh kisne maara hoga? Ek aur hilarious aur funny desi moment aapke liye. Channel ko subscribe karein.",
@@ -14825,7 +15077,8 @@
             "updated_at": "2026-11-12T23:59:01.085022Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 6
     },
     "bvqflPH4SO4": {
         "original_title": "Hassan ne kiya wish 🥳🥰 #shotsfeed #viralshort #shotsvideo #shotrs #reels #2026mubarak#youtuber",
@@ -15850,7 +16103,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 26,
         "seo": {
             "title": "Bike ke sath kya kiya part 2 #viralshorts",
             "description": "Bike ke sath kya kiya part 2 mein dekhiye yeh mazedaar scene. A funny video capturing desi vlog moments in Hindi and Urdu. Check out more viral shorts.",
@@ -15867,7 +16119,8 @@
             "updated_at": "2026-11-12T23:58:54.439875Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 26
     },
     "xxW82G-dWr0": {
         "original_title": "Hassan kaha se Aya 🤔 #shotsfeed #viralshort #ytshorts #funny #reels",
@@ -16711,9 +16964,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 22
+        "duration": 22,
+        "seo": {
+            "title": "iPhone 17 lene ka tarika #viralshorts",
+            "description": "Dekhiye iPhone 17 lene ka tarika is desi vlog mein. Ye ek mazedaar video hai jo aapko zaroor pasand aayegi. Watch now for funny moments!",
+            "keywords": [
+                "iphone 17",
+                "viral shorts",
+                "desi vlog",
+                "hindi urdu",
+                "trending pakistan",
+                "funny video",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:23.023402Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "RbMDjDOE5ec": {
         "original_title": "Light ne Kiya tung #shortsfeed #shotvideo#viralshort #reelsvideo",
@@ -16729,7 +16999,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 5,
         "seo": {
             "title": "Light ne kiya tung funny video #viralshorts",
             "description": "Light ne kiya tung in this funny video. Watch this desi vlog moment in Hindi and Urdu. Enjoy more viral shorts on our channel.",
@@ -16746,7 +17015,8 @@
             "updated_at": "2026-11-12T23:58:54.439875Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 5
     },
     "EXtikahX9Us": {
         "original_title": "papa se Kiya prank #prank #shotsvideo #shotviral #viralshot #reel",
@@ -17211,7 +17481,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 8000,
+        "view_count": 8100,
         "tags": [],
         "description": "",
         "status": "active",
@@ -17265,9 +17535,26 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 18
+        "duration": 18,
+        "seo": {
+            "title": "Hassan ka joota kaise samne aya #funnyvideo",
+            "description": "Dekhiye Hassan ka joota kaise samne aya in this funny video. A quick desi comedy moment in Hindi and Urdu. Enjoy trending shorts and reels.",
+            "keywords": [
+                "funny video",
+                "viral shorts",
+                "desi",
+                "hindi",
+                "urdu",
+                "vlog",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:27.939724Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "7xla_32Mblw": {
         "original_title": "papa ko maar q pari#funny #reels#shortsfeed",
@@ -17381,7 +17668,6 @@
         "missing_count": 0,
         "last_refreshed": "2026-11-12",
         "seo_refresh_pending": false,
-        "duration": 18,
         "seo": {
             "title": "Hassan ki mama gusse me hain! 😡 #shorts",
             "description": "Hassan ki mama ka gussa dekh kar sab hairan ho gaye. Yeh ek funny family moment hai. Video ko pura dekhein.",
@@ -17398,7 +17684,8 @@
             "updated_at": "2026-11-12T23:59:01.085022Z",
             "model": "gemini-3.5-flash-lite",
             "source_tags": []
-        }
+        },
+        "duration": 18
     },
     "Bh0OpGLP8uk": {
         "original_title": "Papa ke Sath kaya howa#viralvideo #shortsfeed #shortvideo #funny #reels ",
@@ -18168,7 +18455,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 42000,
+        "view_count": 43000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18232,7 +18519,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 35000,
+        "view_count": 36000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18480,9 +18767,25 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 5
+        "duration": 5,
+        "seo": {
+            "title": "Kya balloon ko phaad diya? 🤔 #viralshorts",
+            "description": "Kya balloon sach mein phat gaya hai? Yeh mazedaar funny video aapke din ko bana degi. Enjoy this quick desi shorts moment.",
+            "keywords": [
+                "viral shorts",
+                "funny video",
+                "desi reels",
+                "trending pakistan",
+                "urdu vlog",
+                "shorts 2025"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:19.539320Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "HNBB0AGd17Q": {
         "original_title": "Greeb 🙋🏼Bach ko keyu mara 🤔 #shortvideo #viralshorts #shortsfeed #shorts #viral",
@@ -18571,7 +18874,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 5000,
+        "view_count": 5400,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18620,7 +18923,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 21000,
+        "view_count": 22000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18654,7 +18957,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 33000,
+        "view_count": 34000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18670,7 +18973,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 38000,
+        "view_count": 39000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18725,9 +19028,25 @@
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01",
+        "last_refreshed": "2026-11-14",
         "seo_refresh_pending": false,
-        "duration": 11
+        "duration": 11,
+        "seo": {
+            "title": "Kya Hassan ko shoes milenge? 🤔 #viralshorts",
+            "description": "Kya Hassan ko naye shoes mil paayenge ya nahi? Yeh interesting desi vlog video zaroor dekhiye. Fun and entertainment in one short!",
+            "keywords": [
+                "viral shorts",
+                "funny video",
+                "desi vlog",
+                "trending pakistan",
+                "urdu shorts",
+                "reels"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:19.539320Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        }
     },
     "sMPkfy_Whkk": {
         "original_title": "Kaya greeb bachi ko mely shose 🥾🤔 #shortvideo #viralshorts #shortsfeed #shorts #viral",
@@ -18736,7 +19055,7 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "view_count": 30000,
+        "view_count": 36000,
         "tags": [],
         "description": "",
         "status": "active",
@@ -18752,12 +19071,45 @@
         "published_at": null,
         "upload_date": null,
         "duration_seconds": null,
-        "duration": 11,
-        "view_count": 38000,
+        "view_count": 68000,
         "tags": [],
         "description": "",
         "status": "active",
         "missing_count": 0,
-        "last_refreshed": "2000-01-01"
+        "last_refreshed": "2000-01-01",
+        "seo_refresh_pending": false,
+        "duration": 11
+    },
+    "J7boi8qdEys": {
+        "original_title": "Hassan ko keyu mara 🤔😱 #shortvideo #viralshorts #shortsfeed #shorts #viral",
+        "seo_history": [],
+        "last_synced": null,
+        "published_at": null,
+        "upload_date": null,
+        "duration_seconds": null,
+        "duration": 10,
+        "view_count": 36000,
+        "tags": [],
+        "description": "",
+        "status": "active",
+        "missing_count": 0,
+        "last_refreshed": "2026-11-14",
+        "seo": {
+            "title": "Hassan ko kyu mara? 😱 #viralshorts",
+            "description": "Dekhiye yeh funny video jisme Hassan ko marne ka kissa bataya gaya hai. Yeh desi vlog style short aapko zaroor hasayega. Watch now for laughs!",
+            "keywords": [
+                "viral shorts",
+                "funny video",
+                "desi vlog",
+                "trending pakistan",
+                "urdu shorts",
+                "hindi comedy"
+            ],
+            "prompt_version": 1,
+            "updated_at": "2026-11-14T00:13:19.539320Z",
+            "model": "gemini-3.5-flash-lite",
+            "source_tags": []
+        },
+        "seo_refresh_pending": false
     }
 }
